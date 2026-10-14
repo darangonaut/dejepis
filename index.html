@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Dějepis 17.–18. století</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow reading column, sticky tab bar at the bottom like a phone app; four modes (výpisky, kartičky, kvíz, letopočty) */
+:root{
+  --bg:#eef1f5; --paper:#ffffff; --ink:#1b2333; --muted:#5b6578; --line:#d6dce6;
+  --accent:#23408e; --accent-soft:#e3e9f7; --gold:#a8792a; --good:#1f7a4d; --good-soft:#dcf1e5; --bad:#b3362c; --bad-soft:#f8e1de;
+  --display:"Alegreya",Georgia,serif; --body:"Alegreya Sans",system-ui,sans-serif;
+  --t-anglie:#8a5a12; --t-kolonie:#1d5fa8; --t-usa:#b3362c; --t-francie:#2f7a3a; --t-obcan:#7a2a6a;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11151d; --paper:#1a202b; --ink:#e7ebf2; --muted:#9aa4b6; --line:#2c3443;
+  --accent:#8fa8ec; --accent-soft:#232d47; --gold:#d6a85a; --good:#5fc48e; --good-soft:#173527; --bad:#ef7d72; --bad-soft:#3b1d1a;
+  --t-anglie:#d6a85a; --t-kolonie:#78aef0; --t-usa:#ef7d72; --t-francie:#7cc98a; --t-obcan:#d68cc6; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151d; --paper:#1a202b; --ink:#e7ebf2; --muted:#9aa4b6; --line:#2c3443;
+  --accent:#8fa8ec; --accent-soft:#232d47; --gold:#d6a85a; --good:#5fc48e; --good-soft:#173527; --bad:#ef7d72; --bad-soft:#3b1d1a;
+  --t-anglie:#d6a85a; --t-kolonie:#78aef0; --t-usa:#ef7d72; --t-francie:#7cc98a; --t-obcan:#d68cc6; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:20px 110px}
+header h1{font-family:var(--display);font-weight:800;font-size:1.7rem;line-height:1.15;margin:0;text-wrap:balance}
+header p{margin:.25rem 0 0;color:var(--muted);font-size:.95rem}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{font-size:.8rem;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
+h2{font-family:var(--display);font-weight:700;font-size:1.35rem;margin:0 0 .5rem;text-wrap:balance}
+button{font:inherit;cursor:pointer}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* tab bar */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+nav.tabs button{background:none;border:0;color:var(--muted);padding:10px 4px 12px;font-size:.78rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}
+nav.tabs button svg{width:22px;height:22px}
+nav.tabs button[aria-selected="true"]{color:var(--accent)}
+
+/* topic filter */
+.filter{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin:14px 0;scrollbar-width:none}
+.filter button{flex:0 0 auto;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:99px;padding:6px 12px;font-size:.88rem}
+.filter button[aria-pressed="true"]{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+
+/* notes */
+details.sec{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+details.sec>summary{list-style:none;padding:14px 16px;display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.12rem}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .pg{margin-left:auto;font-family:var(--body);font-size:.78rem;color:var(--muted);font-weight:500;white-space:nowrap}
+details.sec>summary .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.secbody{padding:0 16px 14px;border-top:1px solid var(--line)}
+.secbody h3{font-family:var(--display);font-size:1.02rem;margin:14px 0 4px;color:var(--gold)}
+.secbody ul{margin:6px 0;padding-left:1.1em}
+.secbody li{margin:4px 0}
+.secbody b{color:var(--accent)}
+.term{display:block;background:var(--accent-soft);border-radius:8px;padding:6px 10px;margin:6px 0;font-size:.93rem}
+.term i{font-style:normal;font-weight:700}
+.keybox{border-left:3px solid var(--gold);padding:6px 10px;margin:10px 0;font-size:.95rem;background:var(--bg);border-radius:0 8px 8px 0}
+
+/* timeline */
+.tl{list-style:none;padding:0;margin:0;position:relative}
+.tl li{display:grid;grid-template-columns:88px 1fr;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.tl .yr{font-family:var(--display);font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* flashcards */
+.card{perspective:1200px;margin:10px 0 14px;min-height:260px}
+.card-inner{position:relative;min-height:260px;transition:transform .45s;transform-style:preserve-3d}
+.card.flipped .card-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;justify-content:center;gap:10px;text-align:center}
+.face.back{transform:rotateY(180deg);background:var(--accent-soft)}
+.face .q{font-family:var(--display);font-size:1.35rem;font-weight:700;line-height:1.25;text-wrap:balance}
+.face .a{font-size:1.1rem;line-height:1.4}
+.face .tag{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.face .hint{font-size:.8rem;color:var(--muted)}
+.row{display:flex;gap:10px}
+.row>button{flex:1}
+.btn{border:0;border-radius:12px;padding:14px 12px;font-weight:700;font-size:1rem;background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+.btn.good{background:var(--good-soft);color:var(--good);border-color:var(--good)}
+.btn.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.progress>div{height:100%;background:var(--accent);transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* quiz */
+.qbox{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin:10px 0}
+.qbox .q{font-family:var(--display);font-size:1.25rem;font-weight:700;line-height:1.3;margin:6px 0 14px;text-wrap:balance}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:1rem}
+.opt.ok{background:var(--good-soft);border-color:var(--good);color:var(--good);font-weight:700}
+.opt.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opt:disabled{cursor:default}
+.explain{margin-top:12px;font-size:.95rem;color:var(--muted)}
+.result{text-align:center;padding:24px 10px}
+.result .big{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums}
+.modepick{display:grid;gap:10px;margin-top:12px}
+.modepick .btn{text-align:left;padding:14px 16px}
+.modepick .btn small{display:block;font-weight:400;color:var(--muted);font-size:.85rem}
+.modepick .btn.primary small{color:var(--paper);opacity:.85}
+@media (prefers-reduced-motion:reduce){.card-inner,.progress>div{transition:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Dějepis: 17. a 18. století</h1>
+    <p>Občanská revoluce · Anglie · Kolonie · USA · Francie (učebnice str. 10–20)</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <main>
+    <section id="v-notes"></section>
+    <section id="v-cards" hidden></section>
+    <section id="v-quiz" hidden></section>
+    <section id="v-years" hidden></section>
+  </main>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" data-v="notes" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11l5 5v11H4z"/><path d="M8 12h8M8 16h6"/></svg>Výpisky</button>
+  <button role="tab" data-v="cards" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg>Kartičky</button>
+  <button role="tab" data-v="quiz" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.5"/></svg>Kvíz</button>
+  <button role="tab" data-v="years" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M7 7h5M12 12h5M7 17h5"/></svg>Letopočty</button>
+</nav>
+
+<script>
+const TOPICS={obcan:"Občanská revoluce",anglie:"Anglie a VB",kolonie:"Kolonie",usa:"Vznik USA",francie:"Francie"};
+
+/* ---------- VÝPISKY ---------- */
+const NOTES=[
+{t:"obcan",title:"Občanská revoluce",pg:"str. 10",html:`
+<ul>
+<li>Obchod, zámořské cesty a kolonizace mění společnost. Bohatství už není jen výsadou šlechty, šíří se vzdělanost. <b>Rozvoj podnikání</b> mění <b>stavovskou</b> společnost na <b>občanskou</b>.</li>
+<li><b>Parlament</b> = nový prvek zákonodárné moci. Přijímá zákony a <b>kontroluje výkonnou moc</b> (vládu).</li>
+<li>Panovník musí přijmout <b>ústavu</b> = základní zákon země. Občanské revoluce = omezení moci panovníka, jeho svržení nebo i poprava (Karel I.).</li>
+<li><b>Rovnost před zákonem:</b> občané jsou rovnoprávní a podílejí se na řízení státu. Ve stavovské společnosti byl za stejný přečin jinak trestán šlechtic, měšťan a poddaný.</li>
+<li><b>Volební právo</b> měli zpočátku jen <b>muži</b>, kteří splňovali <b>majetkový cenzus</b>. Nevolily ženy ani domorodci v koloniích.</li>
+<li>Občanské revoluce v 17. a 18. st.: <b>Anglie</b>, <b>kolonie v Severní Americe</b>, <b>Francie</b>. Velká francouzská revoluce: <b>svoboda, rovnost, bratrství</b>.</li>
+</ul>
+<span class="term"><i>majetkový cenzus</i> = volič musí mít předepsanou výši majetku</span>
+<div class="keybox"><b>Definice:</b> Občanská revoluce = obyvatelé se stávají <b>občany</b> a volbou zástupců se podílejí na správě státu. Panovník ztrácí neomezenou moc, zákonodárnou moc přebírá <b>parlament</b>, základním zákonem je <b>ústava</b>.</div>
+<h3>Armáda</h3>
+<ul><li>Po <b>třicetileté válce</b> vznikají <b>stálé armády</b>, základ = početná <b>pěchota</b>. Zavedeny <b>jednotné uniformy</b>.</li>
+<li>Vojsko placeno i v míru, vojenská služba = povolání (dřív žoldnéři jen ve válce).</li></ul>
+<h3>Obrázek</h3>
+<ul><li>Jednání parlamentu v Londýně nakreslil <b>Václav Hollar</b>, český barokní rytec a kreslíř.</li></ul>`},
+
+{t:"anglie",title:"Stuartovci a občanská válka",pg:"str. 11–12",html:`
+<h3>Nástup Stuartovců</h3>
+<ul>
+<li><b>1603</b> umírá bezdětná <b>Alžběta I.</b> (konec <b>Tudorovců</b>).</li>
+<li>Nástupce: <b>Jakub I. Stuart</b>, skotský král, syn <b>Marie Stuartovny</b> → <b>personální unie</b> Anglie a Skotska. Stuartovci vládli přes 100 let.</li>
+</ul>
+<span class="term"><i>personální unie</i> = spojení nejméně dvou států osobou panovníka</span>
+<h3>Jakub I.</h3>
+<ul>
+<li>Pro české dějiny: <b>tchán Fridricha Falckého</b> (zimní král). Parlament schválil jen část peněz na vojsko proti Ferdinandovi II.</li>
+<li>Chtěl zavést <b>anglikánskou církev v katolickém Skotsku</b>.</li>
+<li>Za jeho vlády začala soustavnější <b>kolonizace Severní Ameriky</b>. Manželka: Anna Dánská.</li>
+</ul>
+<h3>Karel I.</h3>
+<ul>
+<li>Syn Jakuba I. Chtěl vládnout <b>absolutisticky</b> a přestal svolávat parlament.</li>
+<li>Problém: <b>bez parlamentu nemohl vypisovat daně</b>.</li>
+<li>Pronásledoval puritány, vtrhl do <b>Irska a Skotska</b> → potřeboval peníze.</li>
+<li><b>1640 krátký parlament</b> (hned ho rozpustil) → <b>dlouhý parlament 1640–1653</b>.</li>
+<li><b>1642 občanská válka</b> mezi králem a parlamentem.</li>
+<li>Portrét Karla I. namaloval <b>Anthony van Dyck</b>.</li>
+</ul>
+<h3>Občanská válka</h3>
+<ul>
+<li>Za <b>krále</b>: pozemková šlechta, část anglikánské církve, katolíci.</li>
+<li>Za <b>parlament</b>: měšťané, venkovská šlechta, presbyteriáni, independenti.</li>
+<li>Obrat přinesl velitel <b>Oliver Cromwell</b>. Rozhodující <b>bitva u Naseby 1645</b>: král drtivě poražen, v zavazadlech našli dopisy, že hledal pomoc u katolíků.</li>
+<li><b>Karel I. zajat, odsouzen za velezradu a popraven (1649)</b>.</li>
+</ul>
+<h3>Anglie republikou</h3>
+<ul>
+<li>Anglie se stala <b>poprvé a naposledy republikou</b>, v čele <b>Oliver Cromwell</b>.</li>
+<li>Potlačil opozici: „kusý parlament“, pak parlament rozehnal → titul <b>lord protektor</b> (až do smrti <b>1658</b>).</li>
+<li><b>Zákony o plavbě</b> (Navigation Acts): zboží do Anglie jen na anglických lodích nebo lodích země původu → proti <b>Nizozemí</b>.</li>
+<li>Tažení do <b>Irska</b>: masakry, zákaz katolických bohoslužeb (ruiny Rock of Cashel).</li>
+</ul>
+<span class="term"><i>lord protektor</i> = hlava státu nebo králův regent</span>
+<span class="term"><i>regent</i> = dočasný zástupce panovníka</span>`},
+
+{t:"anglie",title:"Restaurace, slavná revoluce, Listina práv",pg:"str. 12–13",html:`
+<h3>Restaurace Stuartovců</h3>
+<ul>
+<li><b>1660 restaurace</b>: na trůn <b>Karel II.</b> (syn Karla I.).</li>
+<li><b>1666 velký požár Londýna</b>: zničil velkou část města, ale zastavil mor. Přestavba: <b>Christopher Wren</b> (katedrála sv. Pavla).</li>
+<li>Karel II. podporoval vědu → <b>Královská společnost</b> (Royal Society).</li>
+</ul>
+<span class="term"><i>restaurace</i> = uvedení do původního stavu</span>
+<h3>Slavná revoluce 1688</h3>
+<ul>
+<li><b>Jakub II.</b> (bratr Karla II.): absolutismus a sklon ke katolictví → nespokojenost.</li>
+<li>Svržen při <b>slavné revoluci 1688</b> (bez krveprolití).</li>
+<li>Vládu dostal <b>Vilém III. Oranžský</b>, manžel Jakubovy dcery <b>Marie</b>. Podmínka: podepsat <b>Listinu práv</b> → Anglie = <b>parlamentní (konstituční) monarchie</b>.</li>
+</ul>
+<h3>Listina práv (1689)</h3>
+<ul>
+<li>král <b>nesmí bez souhlasu parlamentu zvýšit daně</b>,</li>
+<li>poslanec se zodpovídá <b>jen parlamentu</b>, ne králi či královskému soudu,</li>
+<li>soudy jsou <b>jen civilní</b>, církevní se neuznávají,</li>
+<li>vojsko v době míru <b>jen se souhlasem parlamentu</b>,</li>
+<li><b>svoboda projevu</b> a debat v parlamentu.</li>
+</ul>
+<div class="keybox">Listina práv = nastolení <b>konstituční monarchie</b>, jeden z pilířů ochrany <b>lidských práv</b>.</div>`},
+
+{t:"anglie",title:"Velká Británie, strany, církve",pg:"str. 13–14",html:`
+<h3>Vznik Velké Británie</h3>
+<ul>
+<li>Po Marii a Vilémovi královna <b>Anna Stuartovna</b> (další dcera Jakuba II.).</li>
+<li><b>1707</b> spojením <b>Anglie a Skotska</b> vzniká <b>Království Velké Británie</b>. Slábne moc panovníka, roste vliv parlamentu.</li>
+<li>Žádné z Anniných dětí ji nepřežilo → <b>1714 Jiří I. Hannoverský</b>, nová dynastie (vládla do <b>1901</b>, smrt královny <b>Viktorie</b>).</li>
+<li>Jiří I. dostal trůn díky matce <b>Žofii Hannoverské</b> (vnučka Jakuba I., protestantka; přímá linie Stuartovců byla katolická).</li>
+<li>Britská vlajka = vlajka <b>anglická + skotská + irská</b>.</li>
+</ul>
+<h3>Politické strany a parlament</h3>
+<ul>
+<li><b>Toryové</b> = konzervativní, podporují <b>krále</b>.</li>
+<li><b>Whigové</b> = liberálnější, podporují <b>parlament</b>.</li>
+<li>Parlament má 2 komory: <b>Dolní sněmovna</b> (členství volbou) a <b>Sněmovna lordů</b> (členství dědičné).</li>
+</ul>
+<span class="term"><i>konzervativní</i> = nechtějící změny, lpění na tradicích</span>
+<h3>Náboženské skupiny</h3>
+<ul>
+<li><b>Puritáni</b>: očista církve od zbytků katolicismu, přísné morální zásady.</li>
+<li><b>Presbyteriáni</b>: kalvinismus, církev řízena volenými <b>radami starších</b>. Hlavně ve <b>Skotsku</b>. U nás: Českobratrská církev evangelická.</li>
+<li><b>Independenti</b>: úplná <b>nezávislost církve na státu</b>, svobodný výklad Bible.</li>
+</ul>
+<h3>Mayflower</h3>
+<ul>
+<li>Puritáni <b>Otcové poutníci</b> odpluli lodí <b>Mayflower</b> z Plymouthu do Ameriky (1620).</li>
+<li>První zima byla těžká, domorodci jim pomohli → svátek <b>Den díkůvzdání</b>.</li>
+</ul>`},
+
+{t:"kolonie",title:"Kolonie v Severní Americe",pg:"str. 15",html:`
+<ul>
+<li>Severní Ameriku obsazovali nejdřív <b>Nizozemci</b>, později <b>Francouzi</b> a <b>Angličané</b>.</li>
+<li>Angličané v 17. st. zakládali kolonie na <b>východním pobřeží</b> = <b>Nová Anglie</b>.</li>
+<li>První trvalá anglická kolonie: <b>Virginie (1607)</b>, podle <b>Alžběty I.</b> (panenská královna).</li>
+<li><b>Kanadu</b> osídlovali hlavně <b>Francouzi</b> (obchod s kožešinami, spolupráce s domorodci).</li>
+<li><b>New York</b> založili <b>Nizozemci 1625</b> jako <b>Nový Amsterdam</b> na ostrově Manhattan. Jméno dostal po dobytí Angličany.</li>
+<li><b>Sedmiletá válka 1756–1763</b>: v Americe Francouzi × Angličané → vyhráli <b>Angličané</b>, Francie ztratila tamější kolonie.</li>
+</ul>
+<h3>Proč lidé odcházeli do kolonií</h3>
+<ul>
+<li><b>náboženské důvody</b>: svobodné vyznávání víry (protestanté, puritáni),</li>
+<li><b>půda</b>: v Evropě jí byl nedostatek.</li>
+<li>Odcházeli hlavně mladí muži. V čele kolonií stáli <b>guvernéři</b>.</li>
+<li><b>Jih = plantáže</b> (bavlna), <b>sever = manufaktury</b>.</li>
+</ul>
+<span class="term"><i>plantáž</i> = rozsáhlá plocha, kde se pěstuje jedna plodina (bavlna, cukrová třtina)</span>
+<span class="term"><i>manufaktura</i> = dílna s ruční výrobou a dělbou práce, každý dělník dělá jen jeden úkon</span>
+<span class="term"><i>Commonwealth</i> = uskupení států, jejichž hlavou je britský panovník</span>`},
+
+{t:"kolonie",title:"Obchodní trojúhelník a James Cook",pg:"str. 16",html:`
+<h3>Obchodní trojúhelník (pol. 18. st.)</h3>
+<ul>
+<li><b>Evropa → Afrika</b>: šperky a zbraně</li>
+<li><b>Afrika → Amerika</b>: otroci (černoši) na otrockou práci</li>
+<li><b>Amerika → Evropa</b>: z Jižní Ameriky <b>kakao, tabák, třtinový cukr</b>, ze Severní Ameriky <b>bavlna</b></li>
+<li>Evropská společnost díky tomu značně zbohatla.</li>
+<li>Indiáni těžkou práci nevydrželi a umírali na evropské nemoci, neměli <b>imunitu</b>.</li>
+<li>Do Ameriky převezeno asi <b>8 milionů</b> lidí. V USA otroctví zrušeno až <b>1865</b>.</li>
+<li>Bavlna = hlavní plodina jihu Severní Ameriky.</li>
+</ul>
+<span class="term"><i>imunita</i> = odolnost, schopnost organismu bránit se např. virům</span>
+<h3>James Cook</h3>
+<ul>
+<li>Nejvýznamnější mořeplavec doby. Zmapoval <b>Newfoundland a Labrador</b>.</li>
+<li>V Tichomoří zmapoval <b>Nový Zéland</b>, <b>Austrálii</b> a objevil <b>Havajské ostrovy</b>.</li>
+<li>Do Austrálie byli posíláni trestanci, např. místo trestu smrti.</li>
+<li>Útlak domorodců: indiáni zavíráni do <b>rezervací</b> nebo masakrováni, stejně tak domorodci v Austrálii a na Novém Zélandu.</li>
+</ul>
+<div class="keybox">V 15. a 16. st. kolonizovali hlavně <b>Španělé a Portugalci</b>, v 17. a 18. st. <b>Holanďané, Francouzi a hlavně Britové</b>. Britové kolonizovali téměř <b>pětinu zemského povrchu</b>.</div>`},
+
+{t:"usa",title:"Vznik Spojených států",pg:"str. 17–18",html:`
+<h3>Spory s Anglií</h3>
+<ul>
+<li>Angličané založili na východě Severní Ameriky <b>13 kolonií</b>.</li>
+<li>Král <b>Jiří III.</b> (1760–1820): kolonie = <b>obchodní odbytiště</b> a zdroj <b>financí</b>, např. na <b>sedmiletou válku</b>. V koloniích nebyla podporována řemeslná výroba.</li>
+<li><b>Zákon o kolkovném</b>: kolky na úřední listiny a noviny.</li>
+<li>Kolonisté <b>neměli zástupce v britském parlamentu</b> → nemohli rozhodovat o daních.</li>
+<li><b>Clo na čaj</b> → <b>Bostonské pití čaje 1773</b>: kolonisté převlečení za indiány vyházeli čaj do moře. Král pak omezil svobody Bostonu.</li>
+</ul>
+<span class="term"><i>kolek</i> = cenina, která potvrzuje zaplacení poplatku</span>
+<h3>Válka za nezávislost</h3>
+<ul>
+<li><b>5. 9. 1774 první kontinentální kongres</b>: <b>bojkot anglického zboží</b>, požadavek samosprávy kolonií a lidských svobod.</li>
+<li><b>1775</b> první střety, dobrovolnická armáda pod velením <b>George Washingtona</b>.</li>
+<li><b>4. července 1776 Prohlášení nezávislosti</b>, autor <b>Thomas Jefferson</b>. 13 kolonií prohlášeno za samostatné. (Den nezávislosti = 4. červenec.)</li>
+<li>Zpočátku vyhrávali Britové (lepší zbraně, loďstvo, přesila). Washington válku otočil.</li>
+<li><b>Bitva u Saratogy 1777</b> = klíčová, pak se ke kolonistům přidaly <b>Francie, Španělsko a Nizozemí</b>.</li>
+<li><b>1783 mír ve Versailles</b>: Jiří III. uznal nezávislost USA.</li>
+</ul>
+<h3>Nový stát</h3>
+<ul>
+<li><b>Spojené státy americké</b> = unie, v čele <b>prezident</b>. První prezident <b>George Washington</b> (hlavní město Washington D.C., vláda tam od 1800).</li>
+<li>Zákonodárná moc: <b>Kongres</b> = <b>Sněmovna reprezentantů</b> + <b>Senát</b>.</li>
+<li><b>Ústava USA 1787</b> (přepracovaná 4. 3. 1789).</li>
+<li>Vlajka původně <b>13 pruhů a 13 hvězd</b>. Pruhů je stále 13, hvězd tolik, kolik je států.</li>
+<li><b>Socha svobody</b> = dar Francie (1886) za pomoc v boji za nezávislost.</li>
+</ul>`},
+
+{t:"francie",title:"Ludvík XIII., XIV. a XV.",pg:"str. 19–20",html:`
+<h3>Ludvík XIII.</h3>
+<ul>
+<li>Králem od <b>1610</b>, bylo mu jen 9 let → regentka matka <b>Marie Medicejská</b> s pomocí <b>kardinála Richelieu</b>.</li>
+<li>Richelieu = „<b>šedá eminence</b>“, záporná postava v <b>Třech mušketýrech</b> (Alexandre Dumas).</li>
+<li>Posílení Francie v Evropě, <b>oslabování moci Habsburků</b>.</li>
+<li>Omezil <b>edikt nantský</b> (stejná práva hugenotů a katolíků) a oslabil šlechtu → příprava <b>absolutistické monarchie</b>.</li>
+<li>Manželka <b>Anna Rakouská</b>.</li>
+</ul>
+<h3>Ludvík XIV. – „Král Slunce“</h3>
+<ul>
+<li>Nastoupil v <b>5 letech</b>, regentka matka + <b>kardinál Mazarin</b> (vychovával ho, učil vládnout).</li>
+<li>Vládl <b>absolutisticky</b>: „<b>Stát jsem já.</b>“ Omezil šlechtu, opíral se o duchovenstvo, armádu, policii a úředníky.</li>
+<li>Postavil zámek <b>Versailles</b> u Paříže, sídlo králů od <b>1682</b> do revoluce.</li>
+<li><b>1685 zrušil edikt nantský</b> → protestanti (hugenoti) odcházeli do exilu, Francie = <b>katolická</b> země.</li>
+<li>Války (např. <b>válka o dědictví španělské</b>) → chtěl být nejmocnějším státem Evropy, ale ztratil část kolonií a Francie se <b>zadlužila</b>.</li>
+<li>Ministr financí <b>Jean-Baptiste Colbert</b>: <b>merkantilismus</b> = drahé kovy (peníze) mají zůstat ve státě → podpora <b>vývozu</b> na úkor dovozu, <b>manufaktury</b> na luxusní zboží (parfémy, látky, gobelíny).</li>
+<li>Vládl <b>72 let</b>, nejdéle ze všech francouzských králů.</li>
+</ul>
+<h3>Ludvík XV.</h3>
+<ul>
+<li>Pravnuk Ludvíka XIV., na trůn <b>1715</b>, sám vládl od 1723. Převzal <b>zadluženou pokladnu</b>.</li>
+<li>Pomáhal mu <b>kardinál Fleury</b>, pak ho ovlivňovaly milenky <b>madame de Pompadour</b> a <b>madame du Barry</b>.</li>
+<li>Kritizovali ho <b>osvícenci a encyklopedisté</b>.</li>
+<li>Dluh řešil <b>zvyšováním daní</b>. Platili je jen měšťané a venkované, <b>šlechta a duchovenstvo daně neplatili</b>.</li>
+</ul>
+<span class="term"><i>absolutismus</i> = samovláda, neomezená moc jedince</span>
+<span class="term"><i>hugenot</i> = francouzský protestant</span>
+<div class="keybox">Francie byla od začátku 17. st. mocným, jednotným <b>katolickým</b> státem. Výbojné války ji ale přivedly do velkých <b>dluhů</b>. Ludvík XIV. = vzor <b>absolutistického panovníka</b>.</div>`}
+];
+
+const YEARS=[
+[1603,"Smrt Alžběty I., nástup Jakuba I. Stuarta","anglie"],
+[1607,"Virginie – první trvalá anglická kolonie","kolonie"],
+[1610,"Ludvík XIII. králem Francie","francie"],
+[1620,"Plavba lodi Mayflower","anglie"],
+[1625,"Nizozemci zakládají Nový Amsterdam (New York)","kolonie"],
+[1640,"Krátký parlament, začátek dlouhého parlamentu","anglie"],
+[1642,"Začátek občanské války v Anglii","anglie"],
+[1645,"Bitva u Naseby","anglie"],
+[1649,"Poprava Karla I., Anglie republikou","anglie"],
+[1658,"Smrt Olivera Cromwella","anglie"],
+[1660,"Restaurace Stuartovců (Karel II.)","anglie"],
+[1666,"Velký požár Londýna","anglie"],
+[1682,"Versailles sídlem francouzských králů","francie"],
+[1685,"Ludvík XIV. ruší edikt nantský","francie"],
+[1688,"Slavná revoluce","anglie"],
+[1689,"Listina práv","anglie"],
+[1707,"Vznik Království Velké Británie","anglie"],
+[1714,"Jiří I. Hannoverský na trůnu","anglie"],
+[1715,"Smrt Ludvíka XIV., nastupuje Ludvík XV.","francie"],
+["1756–1763","Sedmiletá válka","kolonie"],
+[1773,"Bostonské pití čaje","usa"],
+[1774,"První kontinentální kongres","usa"],
+[1776,"4. 7. Prohlášení nezávislosti USA","usa"],
+[1777,"Bitva u Saratogy","usa"],
+[1783,"Mír ve Versailles – uznání USA","usa"],
+[1787,"Ústava USA","usa"],
+[1865,"Zrušení otroctví v USA","kolonie"]
+];
+
+/* ---------- KARTIČKY ---------- */
+const CARDS=[
+["obcan","Co je občanská revoluce?","Obyvatelé se stávají občany, volbou zástupců se podílejí na správě státu. Panovník ztrácí neomezenou moc, zákony dělá parlament, základním zákonem je ústava."],
+["obcan","Úkol parlamentu","Přijímat zákony a kontrolovat výkonnou moc (vládu)."],
+["obcan","Ústava","Základní zákon země."],
+["obcan","Majetkový cenzus","Volič musí mít předepsanou výši majetku."],
+["obcan","Kdo měl zpočátku volební právo?","Jen muži, kteří splňovali majetkový cenzus. Ne ženy, ne domorodci v koloniích."],
+["obcan","Kde proběhly občanské revoluce v 17. a 18. st.?","V Anglii, v koloniích v Severní Americe a ve Francii."],
+["obcan","Heslo Velké francouzské revoluce","Svoboda, rovnost, bratrství."],
+["obcan","Rovnost před zákonem – v čem byla změna?","Ve stavovské společnosti byl za stejný přečin jinak trestán šlechtic, měšťan a poddaný. Občané jsou si před zákonem rovni."],
+["obcan","Změny v armádě po třicetileté válce","Stálé armády, základ = pěchota, jednotné uniformy, vojáci placeni i v míru."],
+["obcan","Václav Hollar","Český barokní rytec a kreslíř (kresba jednání parlamentu v Londýně)."],
+["anglie","1603","Smrt Alžběty I. (konec Tudorovců), nástup Jakuba I. Stuarta."],
+["anglie","Personální unie","Spojení nejméně dvou států osobou panovníka (Anglie + Skotsko za Stuartovců)."],
+["anglie","Jakub I. a české dějiny","Byl tchánem Fridricha Falckého (zimního krále)."],
+["anglie","Jakub I. – náboženství","Snažil se zavést anglikánskou církev v katolickém Skotsku."],
+["anglie","Proč měl Karel I. problém bez parlamentu?","Bez souhlasu parlamentu nemohl vypisovat daně."],
+["anglie","Krátký vs. dlouhý parlament","Krátký 1640 (hned rozpuštěn), dlouhý 1640–1653."],
+["anglie","1642","Začátek občanské války mezi králem a parlamentem."],
+["anglie","Kdo stál na straně krále?","Pozemková šlechta, část anglikánské církve, katolíci."],
+["anglie","Kdo stál na straně parlamentu?","Měšťané, venkovská šlechta, presbyteriáni, independenti."],
+["anglie","Bitva u Naseby","1645, rozhodující bitva občanské války, král drtivě poražen."],
+["anglie","Co se stalo s Karlem I.?","Zajat, obviněn z velezrady, odsouzen k smrti a popraven (1649)."],
+["anglie","Oliver Cromwell","Velitel parlamentního vojska, v čele republiky, titul lord protektor (do smrti 1658)."],
+["anglie","Lord protektor","Hlava státu nebo králův regent."],
+["anglie","Regent","Dočasný zástupce panovníka."],
+["anglie","Zákony o plavbě (Navigation Acts)","Zboží do Anglie jen na anglických lodích nebo lodích země původu. Namířeno proti Nizozemí."],
+["anglie","Restaurace Stuartovců","1660, na trůn Karel II. Restaurace = uvedení do původního stavu."],
+["anglie","1666","Velký požár Londýna (zastavil mor). Přestavba: Christopher Wren, katedrála sv. Pavla."],
+["anglie","Karel II. a věda","Podporoval vědu a umění, vznikla Královská společnost (Royal Society)."],
+["anglie","Slavná revoluce","1688, svržení Jakuba II. Trůn dostali Vilém III. Oranžský a Marie."],
+["anglie","Listina práv","Podmínka nástupu Viléma a Marie. Konstituční monarchie, pilíř lidských práv."],
+["anglie","Co říká Listina práv? (5 bodů)","Král nesmí bez parlamentu zvýšit daně · poslanec odpovídá jen parlamentu · jen civilní soudy · vojsko v míru jen se souhlasem parlamentu · svoboda projevu v parlamentu."],
+["anglie","1707","Spojením Anglie a Skotska vzniká Království Velké Británie (za Anny Stuartovny)."],
+["anglie","1714","Nová dynastie: Jiří I. Hannoverský."],
+["anglie","Toryové × whigové","Toryové = konzervativní, podporují krále. Whigové = liberálnější, podporují parlament."],
+["anglie","Dvě komory britského parlamentu","Dolní sněmovna (volby) a Sněmovna lordů (dědičné členství)."],
+["anglie","Puritáni","Chtěli očistit církev od zbytků katolicismu, přísné morální zásady."],
+["anglie","Presbyteriáni","Kalvinisté, církev řízena volenými radami starších. Hlavně ve Skotsku."],
+["anglie","Independenti","Úplná nezávislost církve na státu, svobodný výklad Bible."],
+["anglie","Mayflower","Loď, kterou puritáni (Otcové poutníci) odpluli z Plymouthu do Ameriky."],
+["anglie","Den díkůvzdání","Otcové poutníci děkovali domorodcům za pomoc po první těžké zimě."],
+["anglie","Britská vlajka","Skládá se z vlajky anglické, skotské a irské."],
+["kolonie","Kdo kolonizoval Severní Ameriku?","Nejdřív Nizozemci, pak Francouzi a Angličané."],
+["kolonie","Nová Anglie","Anglické kolonie na východním pobřeží Severní Ameriky."],
+["kolonie","První trvalá anglická kolonie","Virginie (1607), pojmenovaná po Alžbětě I."],
+["kolonie","Kdo osídloval Kanadu?","Hlavně Francouzi (obchod s kožešinami)."],
+["kolonie","New York","Založen Nizozemci 1625 jako Nový Amsterdam na Manhattanu."],
+["kolonie","Sedmiletá válka","1756–1763, v Americe vyhráli Angličané, Francie přišla o kolonie."],
+["kolonie","Důvody odchodu do kolonií","Náboženské (svoboda víry) a půda (v Evropě jí byl nedostatek)."],
+["kolonie","Jih × sever Severní Ameriky","Jih: plantáže (bavlna). Sever: manufaktury."],
+["kolonie","Plantáž","Rozsáhlá plocha, kde se pěstuje jedna plodina (bavlna, cukrová třtina)."],
+["kolonie","Manufaktura","Dílna s ruční výrobou a dělbou práce, každý dělník dělá jen jeden úkon."],
+["kolonie","Commonwealth","Uskupení států, jejichž hlavou je britský panovník."],
+["kolonie","Obchodní trojúhelník","Evropa → Afrika: šperky, zbraně. Afrika → Amerika: otroci. Amerika → Evropa: kakao, tabák, cukr, bavlna."],
+["kolonie","Proč se nevyužívali indiáni?","Těžkou práci nevydrželi a umírali na evropské nemoci (neměli imunitu)."],
+["kolonie","Imunita","Odolnost, schopnost organismu bránit se např. virům."],
+["kolonie","Kolik otroků bylo převezeno do Ameriky?","Asi 8 milionů lidí. V USA otroctví zrušeno 1865."],
+["kolonie","James Cook","Mořeplavec: Newfoundland, Labrador, Nový Zéland, Austrálie, objevil Havajské ostrovy."],
+["kolonie","Kolonizátoři v 15.–16. × 17.–18. st.","15.–16.: Španělé a Portugalci. 17.–18.: Holanďané, Francouzi, hlavně Britové."],
+["usa","Kolik kolonií založili Angličané?","13 kolonií na východním pobřeží."],
+["usa","Jiří III.","Britský král 1760–1820, za něj kolonie vybojovaly nezávislost."],
+["usa","Kolek","Cenina, která potvrzuje zaplacení poplatku."],
+["usa","Proč se kolonistům nelíbily daně?","Neměli zástupce v britském parlamentu, nemohli rozhodovat o daních."],
+["usa","Bostonské pití čaje","1773, kolonisté převlečení za indiány vyházeli čaj do moře (protest proti clu na čaj)."],
+["usa","První kontinentální kongres","5. 9. 1774, bojkot anglického zboží, samospráva kolonií, lidské svobody."],
+["usa","Prohlášení nezávislosti","4. července 1776, autor Thomas Jefferson."],
+["usa","Velitel armády kolonistů","George Washington, později první prezident USA."],
+["usa","Bitva u Saratogy","1777, klíčová. Kolonisty pak podpořily Francie, Španělsko a Nizozemí."],
+["usa","Mír ve Versailles","1783, Jiří III. uznal nezávislost USA."],
+["usa","Kongres USA","Zákonodárná moc, 2 komory: Sněmovna reprezentantů a Senát."],
+["usa","Ústava USA","1787 (přepracovaná 4. 3. 1789)."],
+["usa","Původní vlajka USA","13 pruhů a 13 hvězd (podle 13 kolonií)."],
+["usa","Socha svobody","Dar Francie (1886) jako připomínka pomoci v boji za nezávislost."],
+["francie","Ludvík XIII.","Od 1610 (9 let), regentka Marie Medicejská, kardinál Richelieu. Oslabil Habsburky a šlechtu."],
+["francie","Kardinál Richelieu","Rádce Ludvíka XIII., „šedá eminence“, postava ve Třech mušketýrech."],
+["francie","Kardinál Mazarin","Pomáhal s regentskou vládou za malého Ludvíka XIV., vychovával ho."],
+["francie","Ludvík XIV. – přezdívka a výrok","„Král Slunce“, „Stát jsem já.“"],
+["francie","Edikt nantský","Zaručoval hugenotům stejná práva jako katolíkům. Ludvík XIV. ho zrušil 1685."],
+["francie","Hugenot","Francouzský protestant."],
+["francie","Absolutismus","Samovláda, neomezená moc jedince."],
+["francie","Versailles","Zámek u Paříže, sídlo francouzských králů od 1682 do revoluce."],
+["francie","Jean-Baptiste Colbert","Ministr financí Ludvíka XIV., prosazoval merkantilismus."],
+["francie","Merkantilismus","Drahé kovy (peníze) mají zůstat ve státě: podpora vývozu, omezení dovozu, manufaktury."],
+["francie","Jak dlouho vládl Ludvík XIV.?","72 let, nejdéle ze všech francouzských králů."],
+["francie","Ludvík XV.","Pravnuk Ludvíka XIV., od 1715. Kardinál Fleury, milenky de Pompadour a du Barry."],
+["francie","Kdo ve Francii neplatil daně?","Šlechta a duchovenstvo. Platili jen měšťané a venkované."],
+["francie","Kdo kritizoval Ludvíka XV.?","Osvícenci a encyklopedisté."]
+];
+
+/* ---------- KVÍZ ---------- */
+const QUIZ=[
+["obcan","Co bylo novým prvkem zákonodárné moci?",["parlament","panovník","církev","šlechta"],"Parlament přijímal zákony a kontroloval vládu."],
+["obcan","Co je majetkový cenzus?",["volič musí mít předepsaný majetek","daň z majetku pro šlechtu","seznam poddaných","soupis půdy v koloniích"]],
+["obcan","Kdo zpočátku NEMĚL volební právo?",["ženy","bohatí muži","měšťané splňující cenzus","šlechtici"]],
+["obcan","Heslo Velké francouzské revoluce:",["svoboda, rovnost, bratrství","Bůh, král, vlast","stát jsem já","práce, chléb, mír"]],
+["obcan","Co se změnilo v armádě po třicetileté válce?",["vznikly stálé armády s uniformami","armády byly zrušeny","bojovali jen jezdci","vojáci byli placeni jen ve válce"]],
+["obcan","Václav Hollar byl:",["český barokní rytec a kreslíř","anglický král","francouzský kardinál","velitel parlamentního vojska"]],
+["anglie","Kdo nastoupil na anglický trůn po Alžbětě I.?",["Jakub I. Stuart","Karel I.","Vilém III. Oranžský","Jiří I. Hannoverský"]],
+["anglie","Proč je Jakub I. důležitý pro české dějiny?",["byl tchánem Fridricha Falckého","byl českým králem","porazil Habsburky na Bílé hoře","oženil se s českou princeznou"]],
+["anglie","Proč Karel I. potřeboval parlament?",["bez něj nemohl vypisovat daně","parlament volil krále","parlament velel armádě","kvůli korunovaci"]],
+["anglie","Kdy začala občanská válka v Anglii?",["1642","1603","1688","1707"]],
+["anglie","Rozhodující bitva anglické občanské války:",["u Naseby","u Saratogy","na Bílé hoře","u Waterloo"]],
+["anglie","Kdo stál na straně krále?",["pozemková šlechta a katolíci","měšťané a independenti","presbyteriáni","venkovská šlechta a puritáni"]],
+["anglie","Jaký titul získal Oliver Cromwell?",["lord protektor","král Anglie","kardinál","guvernér"]],
+["anglie","Proti komu byly namířeny zákony o plavbě?",["proti Nizozemí","proti Francii","proti Španělsku","proti koloniím"]],
+["anglie","Co znamená restaurace Stuartovců (1660)?",["návrat Stuartovců na trůn","přestavba Londýna","vznik republiky","sloučení se Skotskem"]],
+["anglie","Co se stalo v Londýně roku 1666?",["velký požár","poprava krále","slavná revoluce","vznik parlamentu"]],
+["anglie","Karel II. podporoval vědu. Co díky němu vzniklo?",["Královská společnost","Oxfordská univerzita","Britské muzeum","Big Ben"]],
+["anglie","Při slavné revoluci 1688 byl svržen:",["Jakub II.","Karel I.","Karel II.","Vilém III."]],
+["anglie","Podmínkou nástupu Viléma III. a Marie bylo podepsat:",["Listinu práv","Prohlášení nezávislosti","edikt nantský","zákony o plavbě"]],
+["anglie","Co NEOBSAHUJE Listina práv?",["král smí vybírat daně bez parlamentu","svoboda projevu v parlamentu","soudy jsou jen civilní","vojsko v míru jen se souhlasem parlamentu"]],
+["anglie","Jaký typ vlády zavedla Listina práv?",["konstituční (parlamentní) monarchie","absolutní monarchie","republika","diktatura"]],
+["anglie","Kdy vzniklo Království Velké Británie?",["1707","1603","1660","1776"]],
+["anglie","Království Velké Británie vzniklo spojením:",["Anglie a Skotska","Anglie a Irska","Anglie a Walesu","Skotska a Irska"]],
+["anglie","Která dynastie nastoupila roku 1714?",["Hannoverská","Tudorovská","Stuartovská","Oranžská"]],
+["anglie","Toryové byli:",["konzervativní, podporovali krále","liberální, podporovali parlament","náboženská skupina","kolonisté v Americe"]],
+["anglie","Členství ve Sněmovně lordů je:",["dědičné","na základě voleb","doživotní podle majetku","jmenované papežem"]],
+["anglie","Kdo usiloval o úplnou nezávislost církve na státu?",["independenti","presbyteriáni","puritáni","anglikáni"]],
+["anglie","Presbyteriánství se nejvíce šířilo:",["ve Skotsku","v Irsku","ve Francii","v Nizozemí"]],
+["anglie","Lodí Mayflower odpluli do Ameriky:",["puritáni (Otcové poutníci)","katolíci","hugenoti","trestanci"]],
+["kolonie","Kdo začal obsazovat Severní Ameriku jako první?",["Nizozemci","Angličané","Francouzi","Španělé"]],
+["kolonie","První trvalá anglická kolonie v Americe:",["Virginie","Nová Anglie","Kanada","New York"]],
+["kolonie","Kanadu osídlovali hlavně:",["Francouzi","Angličané","Nizozemci","Portugalci"]],
+["kolonie","Původní název New Yorku:",["Nový Amsterdam","Nová Anglie","Virginie","Plymouth"]],
+["kolonie","Kdo vyhrál sedmiletou válku v Americe?",["Angličané","Francouzi","Španělé","indiáni"]],
+["kolonie","Na jihu Severní Ameriky vznikaly:",["plantáže","manufaktury","doly na zlato","přístavy pro velryby"]],
+["kolonie","Co se v obchodním trojúhelníku vozilo z Evropy do Afriky?",["šperky a zbraně","otroci","bavlna a tabák","kakao"]],
+["kolonie","Co se vozilo z Afriky do Ameriky?",["otroci","zbraně","cukr","kožešiny"]],
+["kolonie","Proč kolonisté nevyužívali na práci indiány?",["nevydrželi těžkou práci a umírali na nemoci","byli příliš drazí","odmítli pracovat za peníze","žili jen v Kanadě"]],
+["kolonie","Kdy bylo v USA zrušeno otroctví?",["1865","1776","1783","1707"]],
+["kolonie","Co objevil James Cook?",["Havajské ostrovy","Ameriku","Indii","mys Dobré naděje"]],
+["kolonie","Hlavní kolonizátoři v 17. a 18. století:",["Holanďané, Francouzi a hlavně Britové","Španělé a Portugalci","Němci a Rakušané","Švédové a Dánové"]],
+["usa","Kolik kolonií založili Angličané na východě Ameriky?",["13","7","50","20"]],
+["usa","Proti kterému clu protestovali kolonisté v Bostonu?",["clu na čaj","clu na tabák","clu na bavlnu","clu na zbraně"]],
+["usa","Kdy proběhlo Bostonské pití čaje?",["1773","1776","1756","1783"]],
+["usa","Co rozhodl první kontinentální kongres (1774)?",["bojkot anglického zboží","vyhlásit válku Francii","zrušit otroctví","zvolit krále"]],
+["usa","Kdo napsal Prohlášení nezávislosti?",["Thomas Jefferson","George Washington","Jiří III.","James Cook"]],
+["usa","Kdy bylo přijato Prohlášení nezávislosti?",["4. července 1776","5. září 1774","1783","1787"]],
+["usa","Která bitva byla klíčová ve válce za nezávislost?",["u Saratogy","u Naseby","u Bostonu","u Versailles"]],
+["usa","Kdo NEPODPOŘIL kolonisty ve válce za nezávislost?",["Velká Británie","Francie","Španělsko","Nizozemí"]],
+["usa","Mírem ve Versailles 1783:",["Británie uznala nezávislost USA","skončila sedmiletá válka","vznikla Velká Británie","byl zrušen edikt nantský"]],
+["usa","Kongres USA se skládá ze:",["Sněmovny reprezentantů a Senátu","Dolní sněmovny a Sněmovny lordů","parlamentu a krále","vlády a prezidenta"]],
+["usa","Kdy přijaly USA ústavu?",["1787","1776","1689","1865"]],
+["usa","Socha svobody byla darem od:",["Francie","Británie","Španělska","Nizozemí"]],
+["francie","Kdo vládl za malého Ludvíka XIII.?",["Marie Medicejská s kardinálem Richelieu","Anna Rakouská s Mazarinem","Colbert","Ludvík XIV."]],
+["francie","Komu se říkalo „šedá eminence“?",["kardinálu Richelieu","kardinálu Mazarinovi","Colbertovi","Ludvíku XV."]],
+["francie","Kdo byl „Král Slunce“?",["Ludvík XIV.","Ludvík XIII.","Ludvík XV.","Jiří III."]],
+["francie","Kdo údajně řekl „Stát jsem já“?",["Ludvík XIV.","Oliver Cromwell","Karel I.","Richelieu"]],
+["francie","Kdy Ludvík XIV. zrušil edikt nantský?",["1685","1610","1715","1688"]],
+["francie","Edikt nantský zaručoval práva:",["hugenotům (protestantům)","katolíkům","Židům","šlechtě"]],
+["francie","Sídlem francouzských králů se stal zámek:",["Versailles","Louvre","Windsor","Kensington"]],
+["francie","Merkantilismus prosazoval:",["podporu vývozu, peníze mají zůstat ve státě","podporu dovozu","zrušení manufaktur","svobodný obchod bez cel"]],
+["francie","Ministr financí Ludvíka XIV.:",["Jean-Baptiste Colbert","kardinál Fleury","Mazarin","Richelieu"]],
+["francie","Jak dlouho vládl Ludvík XIV.?",["72 let","40 let","25 let","55 let"]],
+["francie","Kdo ve Francii za Ludvíka XV. NEPLATIL daně?",["šlechta a duchovenstvo","měšťané","venkované","řemeslníci"]],
+["francie","Absolutismus znamená:",["neomezenou moc jedince","vládu parlamentu","vládu lidu","rovnost před zákonem"]]
+];
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const store={get(k,d){try{const v=localStorage.getItem("dej_"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("dej_"+k,JSON.stringify(v))}catch(e){}}};
+let known=store.get("known",{});     // cardId -> true
+let wrong=store.get("wrong",{});     // quizId -> count
+const tcolor=t=>`var(--t-${t})`;
+
+function stats(){
+  const k=Object.keys(known).filter(x=>known[x]).length;
+  const w=Object.keys(wrong).length;
+  $("#stats").innerHTML=`<span class="chip">Umím ${k} / ${CARDS.length} kartiček</span>`+(w?`<span class="chip" style="background:var(--bad-soft);color:var(--bad)">${w} chyb k opakování</span>`:"");
+}
+
+function filterBar(cur,onPick){
+  const all=[["all","Vše"],...Object.entries(TOPICS)];
+  const d=document.createElement("div");d.className="filter";
+  all.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.setAttribute("aria-pressed",k===cur);b.onclick=()=>onPick(k);d.appendChild(b)});
+  return d;
+}
+
+/* ---------- notes view ---------- */
+function renderNotes(){
+  const v=$("#v-notes");v.innerHTML="";
+  NOTES.forEach((n,i)=>{
+    const d=document.createElement("details");d.className="sec";if(i===0)d.open=true;
+    d.innerHTML=`<summary><span class="dot" style="background:${tcolor(n.t)}"></span>${esc(n.title)}<span class="pg">${n.pg}</span></summary><div class="secbody">${n.html}</div>`;
+    v.appendChild(d);
+  });
+  const d=document.createElement("details");d.className="sec";
+  d.innerHTML=`<summary><span class="dot" style="background:var(--gold)"></span>Časová osa<span class="pg">${YEARS.length} letopočtů</span></summary><div class="secbody"><ul class="tl">${YEARS.map(y=>`<li><span class="yr">${y[0]}</span><span>${esc(y[1])}</span></li>`).join("")}</ul></div>`;
+  v.appendChild(d);
+  // vždy otevřená jen jedna sekce
+  const secs=[...v.querySelectorAll("details.sec")];
+  secs.forEach(s=>s.addEventListener("toggle",()=>{
+    if(!s.open)return;
+    secs.forEach(o=>{if(o!==s)o.open=false});
+    s.scrollIntoView({block:"start",behavior:"smooth"});
+  }));
+}
+
+/* ---------- cards view ---------- */
+let cTopic="all",cOnlyUnknown=true,cDeck=[],cIdx=0;
+function buildDeck(){
+  cDeck=shuffle(CARDS.map((c,i)=>({...c,id:i,t:c[0],q:c[1],a:c[2]})).filter(c=>(cTopic==="all"||c.t===cTopic)&&(!cOnlyUnknown||!known[c.id])));
+  cIdx=0;
+}
+function renderCards(){
+  const v=$("#v-cards");v.innerHTML="<h2>Kartičky</h2>";
+  v.appendChild(filterBar(cTopic,k=>{cTopic=k;buildDeck();renderCards()}));
+  const tog=document.createElement("label");tog.style.cssText="display:flex;gap:8px;align-items:center;font-size:.92rem;color:var(--muted)";
+  tog.innerHTML=`<input type="checkbox" id="onlyUnknown" ${cOnlyUnknown?"checked":""}> Jen ty, které ještě neumím`;
+  tog.querySelector("input").onchange=e=>{cOnlyUnknown=e.target.checked;buildDeck();renderCards()};
+  v.appendChild(tog);
+  if(cIdx>=cDeck.length){
+    const r=document.createElement("div");r.className="result";
+    r.innerHTML=`<div class="big">✓</div><p>${cDeck.length?"Balíček hotový.":"V tomhle výběru už všechno umíš."}</p>`;
+    const row=document.createElement("div");row.className="row";
+    const b1=document.createElement("button");b1.className="btn primary";b1.textContent="Znovu zamíchat";b1.onclick=()=>{buildDeck();renderCards()};
+    const b2=document.createElement("button");b2.className="btn";b2.textContent="Vynulovat „umím“";b2.onclick=()=>{known={};store.set("known",known);stats();buildDeck();renderCards()};
+    row.append(b1,b2);r.appendChild(row);v.appendChild(r);return;
+  }
+  const c=cDeck[cIdx];
+  const meta=document.createElement("div");meta.innerHTML=`<div class="meta" style="margin-top:12px"><span>${cIdx+1} / ${cDeck.length}</span><span>${TOPICS[c.t]}</span></div><div class="progress"><div style="width:${cIdx/cDeck.length*100}%"></div></div>`;
+  v.appendChild(meta);
+  const card=document.createElement("div");card.className="card";card.tabIndex=0;card.setAttribute("role","button");card.setAttribute("aria-label","Otočit kartičku");
+  card.innerHTML=`<div class="card-inner"><div class="face"><span class="tag" style="color:${tcolor(c.t)}">${TOPICS[c.t]}</span><div class="q">${esc(c.q)}</div><div class="hint">Klepni pro odpověď</div></div><div class="face back"><div class="q" style="font-size:1rem;color:var(--muted)">${esc(c.q)}</div><div class="a">${esc(c.a)}</div></div></div>`;
+  const flip=()=>card.classList.toggle("flipped");
+  card.onclick=flip;card.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();flip()}};
+  v.appendChild(card);
+  const row=document.createElement("div");row.className="row";
+  const no=document.createElement("button");no.className="btn bad";no.textContent="Ještě neumím";
+  no.onclick=()=>{known[c.id]=false;store.set("known",known);cDeck.push(c);cIdx++;stats();renderCards()};
+  const yes=document.createElement("button");yes.className="btn good";yes.textContent="Umím";
+  yes.onclick=()=>{known[c.id]=true;store.set("known",known);cIdx++;stats();renderCards()};
+  row.append(no,yes);v.appendChild(row);
+}
+
+/* ---------- quiz view ---------- */
+let qTopic="all",qList=[],qIdx=0,qScore=0,qMode=null,qWrongNow=[];
+function yearQuestions(){
+  return YEARS.filter(y=>typeof y[0]==="number").map((y,i)=>{
+    const others=shuffle(YEARS.filter(z=>typeof z[0]==="number"&&z[0]!==y[0]).map(z=>z[0])).slice(0,3);
+    return {id:"y"+i,t:y[2],q:`Kdy? ${y[1]}`,opts:[String(y[0]),...others.map(String)],ok:String(y[0])};
+  });
+}
+function allQuiz(){
+  return QUIZ.map((x,i)=>({id:"q"+i,t:x[0],q:x[1],opts:x[2],ok:x[2][0],ex:x[3]}));
+}
+function startQuiz(mode){
+  qMode=mode;let pool;
+  if(mode==="years")pool=yearQuestions();
+  else if(mode==="wrong"){const all=[...allQuiz(),...yearQuestions()];pool=all.filter(q=>wrong[q.id]);}
+  else pool=allQuiz();
+  if(qTopic!=="all"&&mode!=="wrong")pool=pool.filter(q=>q.t===qTopic);
+  qList=shuffle(pool);if(mode==="quick")qList=qList.slice(0,15);
+  qIdx=0;qScore=0;qWrongNow=[];renderQuiz();
+}
+function renderQuiz(){
+  const v=$("#v-quiz");v.innerHTML="<h2>Kvíz</h2>";
+  if(!qMode){
+    v.appendChild(filterBar(qTopic,k=>{qTopic=k;renderQuiz()}));
+    const n=Object.keys(wrong).length;
+    const m=document.createElement("div");m.className="modepick";
+    const opts=[["quick","Rychlý test",`15 náhodných otázek${qTopic!=="all"?" z tématu "+TOPICS[qTopic]:""}`,"primary"],["all","Všechny otázky",`celý kvíz, ${allQuiz().filter(q=>qTopic==="all"||q.t===qTopic).length} otázek`,""],["years","Letopočty","kdy se to stalo? vyber správný rok",""]];
+    if(n)opts.push(["wrong","Opakovat chyby",`${n} otázek, které ti nešly`,"bad"]);
+    opts.forEach(([k,l,s,c])=>{const b=document.createElement("button");b.className="btn "+c;b.innerHTML=`${l}<small>${s}</small>`;b.onclick=()=>startQuiz(k);m.appendChild(b)});
+    v.appendChild(m);return;
+  }
+  if(!qList.length){v.innerHTML+=`<p>Žádné otázky v tomto výběru.</p>`;const b=document.createElement("button");b.className="btn";b.textContent="Zpět";b.onclick=()=>{qMode=null;renderQuiz()};v.appendChild(b);return}
+  if(qIdx>=qList.length){
+    const pct=Math.round(qScore/qList.length*100);
+    const grade=pct>=90?"1":pct>=75?"2":pct>=50?"3":pct>=30?"4":"5";
+    const r=document.createElement("div");r.className="result";
+    r.innerHTML=`<div class="big">${qScore} / ${qList.length}</div><p>${pct} % · odhad známky: <b>${grade}</b></p>${qWrongNow.length?`<p class="explain">Chyby se uložily do „Opakovat chyby“.</p>`:""}`;
+    const row=document.createElement("div");row.className="row";
+    const b1=document.createElement("button");b1.className="btn primary";b1.textContent="Znovu";b1.onclick=()=>startQuiz(qMode);
+    const b2=document.createElement("button");b2.className="btn";b2.textContent="Jiný test";b2.onclick=()=>{qMode=null;renderQuiz()};
+    row.append(b1,b2);r.appendChild(row);v.appendChild(r);return;
+  }
+  const q=qList[qIdx];
+  const box=document.createElement("div");box.className="qbox";
+  box.innerHTML=`<div class="meta"><span>Otázka ${qIdx+1} / ${qList.length}</span><span>Skóre ${qScore}</span></div><div class="progress"><div style="width:${qIdx/qList.length*100}%"></div></div><div class="q">${esc(q.q)}</div>`;
+  const o=document.createElement("div");o.className="opts";
+  const btns=shuffle(q.opts).map(t=>{const b=document.createElement("button");b.className="opt";b.textContent=t;o.appendChild(b);return b});
+  box.appendChild(o);
+  const next=document.createElement("button");next.className="btn primary";next.style.cssText="width:100%;margin-top:14px";next.textContent=qIdx+1<qList.length?"Další otázka":"Výsledek";next.hidden=true;
+  next.onclick=()=>{qIdx++;renderQuiz();window.scrollTo({top:0})};
+  btns.forEach(b=>b.onclick=()=>{
+    const ok=b.textContent===q.ok;
+    btns.forEach(x=>{x.disabled=true;if(x.textContent===q.ok)x.classList.add("ok")});
+    if(ok){qScore++;if(wrong[q.id]){delete wrong[q.id]}}
+    else{b.classList.add("no");wrong[q.id]=(wrong[q.id]||0)+1;qWrongNow.push(q.id)}
+    store.set("wrong",wrong);stats();
+    if(q.ex){const e=document.createElement("div");e.className="explain";e.textContent=q.ex;box.appendChild(e)}
+    box.appendChild(next);next.hidden=false;next.focus({preventScroll:true});
+  });
+  v.appendChild(box);
+  const back=document.createElement("button");back.className="btn";back.style.width="100%";back.textContent="Ukončit test";back.onclick=()=>{qMode=null;renderQuiz()};
+  v.appendChild(back);
+}
+
+/* ---------- years view (order game) ---------- */
+let yRound=[],ySel=[];
+function newYearRound(){yRound=shuffle(YEARS.filter(y=>typeof y[0]==="number")).slice(0,5);ySel=[];renderYears()}
+function renderYears(){
+  const v=$("#v-years");
+  v.innerHTML=`<h2>Seřaď podle času</h2><p style="color:var(--muted);margin:0 0 12px">Klepej na události od nejstarší po nejnovější.</p>`;
+  const done=ySel.length===yRound.length;
+  const correct=yRound.slice().sort((a,b)=>a[0]-b[0]);
+  const o=document.createElement("div");o.className="opts";
+  yRound.forEach(y=>{
+    const b=document.createElement("button");b.className="opt";
+    const pos=ySel.indexOf(y);
+    b.innerHTML=(pos>=0?`<b style="color:var(--accent)">${pos+1}.</b> `:"")+esc(y[1])+(done?` <span style="float:right;font-weight:700">${y[0]}</span>`:"");
+    if(done){b.disabled=true;b.classList.add(correct.indexOf(y)===pos?"ok":"no")}
+    else if(pos>=0){b.disabled=true;b.style.opacity=.6}
+    b.onclick=()=>{ySel.push(y);renderYears()};
+    o.appendChild(b);
+  });
+  v.appendChild(o);
+  if(done){
+    const n=yRound.filter(y=>correct.indexOf(y)===ySel.indexOf(y)).length;
+    const p=document.createElement("p");p.style.cssText="font-family:var(--display);font-size:1.2rem;font-weight:700;margin:14px 0 4px";
+    p.textContent=n===5?"Všechno správně!":`Správně ${n} z 5. Správné pořadí:`;v.appendChild(p);
+    if(n<5){const ul=document.createElement("ul");ul.className="tl";ul.innerHTML=correct.map(y=>`<li><span class="yr">${y[0]}</span><span>${esc(y[1])}</span></li>`).join("");v.appendChild(ul)}
+  }
+  const row=document.createElement("div");row.className="row";row.style.marginTop="14px";
+  if(!done&&ySel.length){const u=document.createElement("button");u.className="btn";u.textContent="Zpět o krok";u.onclick=()=>{ySel.pop();renderYears()};row.appendChild(u)}
+  const nb=document.createElement("button");nb.className="btn primary";nb.textContent="Nové kolo";nb.onclick=newYearRound;row.appendChild(nb);
+  v.appendChild(row);
+  const h=document.createElement("details");h.className="sec";h.style.marginTop="18px";
+  h.innerHTML=`<summary>Všechny letopočty<span class="pg">${YEARS.length}</span></summary><div class="secbody"><ul class="tl">${YEARS.map(y=>`<li><span class="yr">${y[0]}</span><span>${esc(y[1])}</span></li>`).join("")}</ul></div>`;
+  v.appendChild(h);
+}
+
+/* ---------- tabs ---------- */
+function show(view){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===view));
+  ["notes","cards","quiz","years"].forEach(k=>$("#v-"+k).hidden=k!==view);
+  store.set("tab",view);window.scrollTo({top:0});
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+
+renderNotes();buildDeck();renderCards();renderQuiz();newYearRound();stats();
+const h=(location.hash||"").slice(1);
+show(["notes","cards","quiz","years"].includes(h)?h:store.get("tab","notes"));
+</script>
+
+</body>
+</html>
