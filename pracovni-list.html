@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pracovní list – opakování</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Alegreya+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: one reading column; every answer hidden behind a tap so the sheet works as a self-test */
+:root{
+  --bg:#eef1f5; --paper:#ffffff; --ink:#1b2333; --muted:#5b6578; --line:#d6dce6;
+  --accent:#23408e; --accent-soft:#e3e9f7; --gold:#a8792a; --good:#1f7a4d; --good-soft:#dcf1e5; --bad:#b3362c; --bad-soft:#f8e1de;
+  --display:"Alegreya",Georgia,serif; --body:"Alegreya Sans",system-ui,sans-serif;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#11151d; --paper:#1a202b; --ink:#e7ebf2; --muted:#9aa4b6; --line:#2c3443;
+  --accent:#8fa8ec; --accent-soft:#232d47; --gold:#d6a85a; --good:#5fc48e; --good-soft:#173527; --bad:#ef7d72; --bad-soft:#3b1d1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11151d; --paper:#1a202b; --ink:#e7ebf2; --muted:#9aa4b6; --line:#2c3443;
+  --accent:#8fa8ec; --accent-soft:#232d47; --gold:#d6a85a; --good:#5fc48e; --good-soft:#173527; --bad:#ef7d72; --bad-soft:#3b1d1a; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);margin:0}
+[hidden]{display:none!important}
+body{color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:16px 60px}
+a{color:var(--accent)}
+.back{display:inline-block;font-weight:700;text-decoration:none;margin-bottom:10px}
+h1{font-family:var(--display);font-weight:800;font-size:1.65rem;line-height:1.15;margin:0;text-wrap:balance}
+header p{margin:.25rem 0 0;color:var(--muted)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;padding-block:10px;margin-top:8px;border-bottom:1px solid var(--line)}
+.bar button{flex:1}
+button{font:inherit;cursor:pointer}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{border-radius:12px;padding:11px 10px;font-weight:700;font-size:.95rem;background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn.primary{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+details.sec{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin-top:12px;overflow:hidden}
+details.sec>summary{list-style:none;padding:14px 16px;font-family:var(--display);font-weight:700;font-size:1.15rem;display:flex;gap:10px;align-items:baseline}
+details.sec>summary::-webkit-details-marker{display:none}
+details.sec>summary .n{color:var(--gold);font-variant-numeric:tabular-nums}
+details.sec>summary .c{margin-left:auto;font-family:var(--body);font-size:.8rem;color:var(--muted);font-weight:500;white-space:nowrap}
+.items{border-top:1px solid var(--line)}
+.item{padding:12px 16px;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:0}
+.item .q{font-weight:700}
+.reveal{margin-top:6px;border:1px dashed var(--accent);background:transparent;color:var(--accent);border-radius:8px;padding:6px 12px;font-size:.88rem;font-weight:700}
+.ans{margin-top:6px;background:var(--accent-soft);border-radius:8px;padding:8px 12px}
+.ans b{color:var(--accent)}
+.yr{font-family:var(--display);font-weight:800;font-size:1.15rem;color:var(--accent);font-variant-numeric:tabular-nums}
+.note{font-size:.85rem;color:var(--muted);margin-top:4px}
+.tf{display:flex;gap:8px;margin-top:8px}
+.tf button{flex:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:9px;font-weight:700}
+.tf button.ok{background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.tf button.no{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.score{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Zpět na výpisky a kvíz</a>
+  <header>
+    <h1>Pracovní list – opakování na test</h1>
+    <p>Dějiny Anglie a Velké Británie, vznik USA a Francie. Zkus odpovědět a pak klepni na „Ukázat odpověď“.</p>
+  </header>
+  <div class="bar">
+    <button class="btn primary" id="showAll">Ukázat všechny odpovědi</button>
+    <button class="btn" id="hideAll">Skrýt odpovědi</button>
+  </div>
+  <main id="sheet"></main>
+</div>
+
+<script>
+const SECTIONS=[
+{title:"Důležité letopočty a data",kind:"year",items:[
+["Smrt královny Alžběty I. a nástup Jakuba I. Stuarta","1603"],
+["Smrt Jakuba I. a nástup Karla I.","1625"],
+["Poprava Karla I. a vyhlášení republiky","1649"],
+["Smrt Olivera Cromwella","1658"],
+["Slavná revoluce a sesazení Jakuba II.","1688"],
+["Zákon o unii Anglie a Skotska; vznik Velké Británie","1707"],
+["James Cook objevil Austrálii","1770","Cook připlul k východnímu pobřeží Austrálie roku 1770. Ověř si, že stejný rok byl i v prezentaci."],
+["Bostonské pití čaje","1773","16. prosince 1773"],
+["Zasedání ve Filadelfii a dohoda o odtržení od VB","1776","Druhý kontinentální kongres ve Filadelfii odhlasoval odtržení 2. 7. 1776. První kongres ve Filadelfii (bojkot anglického zboží) zasedal 1774. Kdyby v prezentaci byl rok 1774, platí ten."],
+["Prohlášení o nezávislosti USA","4. 7. 1776"],
+["Uznání nezávislosti USA Velkou Británií","1783","mír ve Versailles"],
+["George Washington se stal prvním prezidentem USA","1789"],
+["Ludvík XIV. se ujal vlády","1661","Králem byl od 1643, ale sám začal vládnout až po smrti kardinála Mazarina 1661."],
+["Nástup Ludvíka XV. na francouzský trůn","1715"],
+["Vypuknutí Francouzské revoluce","1789","14. 7. 1789 – dobytí Bastily"]
+]},
+{title:"Osobnosti",kind:"text",items:[
+["Jakub I. Stuart","Skotský král, po smrti Alžběty I. (1603) i anglický král → personální unie Anglie a Skotska. První Stuartovec na anglickém trůnu. Tchán Fridricha Falckého (zimního krále). Za něj začala kolonizace Severní Ameriky."],
+["Karel I.","Syn Jakuba I. (od 1625). Chtěl vládnout absolutisticky, bez parlamentu, a vybírat daně bez jeho souhlasu → občanská válka (1642). Poražen, zajat a roku 1649 popraven."],
+["Oliver Cromwell","Velitel parlamentního vojska v občanské válce (bitva u Naseby 1645). Po popravě krále stál v čele republiky, od 1653 vládl jako lord protektor (vojenská diktatura). Zavedl zákony o plavbě. Zemřel 1658."],
+["Karel II.","Syn Karla I. Roku 1660 obnovil monarchii (restaurace Stuartovců). Za jeho vlády velký požár Londýna (1666). Podporoval vědu, vznikla Královská společnost."],
+["Jakub II.","Bratr Karla II. Katolík, chtěl vládnout absolutisticky → sesazen při slavné revoluci 1688."],
+["Vilém Oranžský (Vilém III.)","Nizozemský místodržitel, manžel Jakubovy dcery Marie. Po slavné revoluci 1688 nastoupil na trůn. Musel podepsat Listinu práv (1689) → konstituční monarchie."],
+["Královna Anna","Anna Stuartovna, dcera Jakuba II., poslední Stuartovna. Za její vlády vznikla zákonem o unii 1707 Velká Británie. Po její smrti nastoupili Hannoverové (1714)."],
+["James Cook","Britský mořeplavec. Zmapoval Newfoundland, Nový Zéland a východní pobřeží Austrálie (1770), objevil Havajské ostrovy."],
+["George Washington","Velitel armády kolonistů ve válce za nezávislost. První prezident USA (1789)."],
+["Kardinál Mazarin","Pomáhal vládnout matce malého Ludvíka XIV. (regentská vláda), vychovával ho. Za jeho vlády povstání fronda (1648). Po jeho smrti 1661 se Ludvík XIV. ujal vlády sám."],
+["Ludvík XIV.","„Král Slunce“, vzor absolutistického panovníka („Stát jsem já“). Postavil Versailles, 1685 zrušil edikt nantský, vedl mnoho válek. Vládl 72 let."],
+["Jean-Baptiste Colbert","Ministr financí Ludvíka XIV. Prosazoval merkantilismus: podporoval vývoz a manufaktury, omezoval dovoz."],
+["Ludvík XV.","Pravnuk Ludvíka XIV., králem od 1715. Převzal zadluženou zemi, vedl války a ovlivňovaly ho milenky (madame de Pompadour). Dluhy řešil zvyšováním daní, které platili jen měšťané a venkované."]
+]},
+{title:"Události, příčiny a důsledky",kind:"text",items:[
+["1. Proč po smrti Alžběty I. nastoupil na anglický trůn Jakub I. Stuart? Co znamenala personální unie Anglie a Skotska?","Alžběta I. zemřela bezdětná (1603) a vymřeli Tudorovci. Za nástupce určila svého příbuzného, skotského krále Jakuba (syna Marie Stuartovny). <b>Personální unie</b> = oba státy měly <b>společného panovníka</b>, ale zůstaly samostatné: každý měl svůj parlament, zákony i církev."],
+["2. Uveď alespoň dva důvody konfliktu mezi Karlem I. a parlamentem.","• Karel chtěl vládnout <b>absolutisticky</b> a přestal svolávat parlament.<br>• Chtěl <b>vybírat daně bez souhlasu parlamentu</b>.<br>• <b>Náboženství</b>: posiloval anglikánskou církev, pronásledoval puritány.<br>• Válka se Skotskem a Irskem, na kterou potřeboval peníze."],
+["3. Jak skončila anglická občanská válka? Uveď rok a dva její důsledky.","Vyhrál <b>parlament</b> (Cromwell, bitva u Naseby 1645). Karel I. byl zajat, odsouzen a roku <b>1649 popraven</b>.<br>Důsledky: • zrušení monarchie, Anglie se stala <b>republikou</b>; • vláda <b>Olivera Cromwella</b>; • posílení parlamentu a omezení moci panovníka."],
+["4. Jak se změnila Cromwellova vláda v průběhu času? Vysvětli pojmy lord protektor a diktatura.","Na začátku vládl spolu s parlamentem (republika). Pak potlačil opozici, z parlamentu zbyl jen „kusý parlament“ a roku <b>1653 parlament rozehnal</b>. Vládl sám jako <b>lord protektor</b> s oporou armády → <b>vojenská diktatura</b>.<br><b>Lord protektor</b> = hlava státu (místo krále).<br><b>Diktatura</b> = neomezená vláda jednoho člověka nebo skupiny, bez kontroly parlamentu a bez svobod."],
+["5. Co byla Slavná revoluce a jaký typ monarchie se po ní v Anglii prosadil?","Roku <b>1688</b> parlament bez krveprolití sesadil katolického krále <b>Jakuba II.</b> a předal trůn <b>Vilémovi III. Oranžskému</b> a Marii. Ti museli podepsat <b>Listinu práv</b> (1689). Prosadila se <b>konstituční (parlamentní) monarchie</b>: král vládne s parlamentem a podle zákonů."],
+["6. Co se změnilo zákonem o unii z roku 1707?","Anglie a Skotsko se spojily v jeden stát, <b>Království Velké Británie</b>. Měly <b>jeden společný parlament</b> v Londýně a společnou vlajku. Stalo se to za královny Anny."],
+["7. Proč byly kolonie důležité pro Velkou Británii? Uveď alespoň dva důvody.","• <b>Suroviny</b> (bavlna, tabák, cukr, kožešiny).<br>• <b>Odbytiště</b> pro britské zboží.<br>• Zdroj <b>peněz</b> (daně, cla), např. na sedmiletou válku.<br>• Místo pro <b>osadníky</b> (náboženská svoboda, půda)."],
+["8. Proč byli obyvatelé amerických kolonií nespokojeni s britskou vládou?","• Platili <b>nové daně a cla</b> (kolkovné, clo na čaj).<br>• <b>Neměli zástupce v britském parlamentu</b>, takže nemohli rozhodovat o daních („žádné daně bez zastoupení“).<br>• Británie omezovala jejich obchod a výrobu.<br>• Po Bostonském pití čaje král omezil jejich svobody."],
+["10. Proč posílila ve Francii po povstání roku 1648 panovnická moc, přestože povstání směřovalo proti regentské vládě?","Povstání se jmenovalo <b>fronda</b> (1648–1653). Šlechta a pařížský parlament se bouřili proti Mazarinovi a regentské vládě. Povstání ale <b>neuspělo</b>: povstalci byli nejednotní a země zažila chaos. Lidé pak chtěli <b>silného krále</b>, který zajistí pořádek. Mladý Ludvík XIV. si frondu zapamatoval, nedůvěřoval šlechtě, oslabil ji a vládl <b>absolutisticky</b>."],
+["11. Vysvětli pojem merkantilismus a uveď, jak s ním souvisel Colbert.","<b>Merkantilismus</b> = hospodářská politika, podle které má stát co nejvíc <b>vyvážet</b> a co nejméně dovážet, aby peníze (drahé kovy) zůstaly v zemi. <b>Colbert</b>, ministr financí Ludvíka XIV., ho prosazoval: zakládal a podporoval <b>manufaktury</b> (luxusní zboží, gobelíny, parfémy), zaváděl <b>cla</b> na dovoz a podporoval obchod a kolonie."],
+["12. Proč se Francie za Ludvíka XV. dostávala do hospodářských problémů a kdo nesl daňové břemeno?","Ludvík XV. převzal <b>zadluženou zemi</b> po Ludvíkovi XIV., vedl další <b>války</b> (sedmiletá válka, ztráta kolonií) a dvůr utrácel za přepych. Dluhy řešil <b>zvyšováním daní</b>. Platili je jen <b>měšťané a venkované</b> (třetí stav); <b>šlechta a duchovenstvo daně neplatili</b>."]
+]},
+{title:"Pojmy",kind:"text",items:[
+["absolutistická monarchie","Panovník má neomezenou moc, nikomu se nezodpovídá a nemusí se řídit parlamentem (Ludvík XIV.)."],
+["konstituční monarchie","Moc panovníka je omezená ústavou a zákony, vládne společně s parlamentem (Anglie po 1688)."],
+["personální unie","Spojení dvou nebo více států jen osobou společného panovníka; státy jinak zůstávají samostatné."],
+["republika","Stát bez krále; v čele stojí zvolení zástupci (např. prezident)."],
+["parlamentní opozice","Poslanci v parlamentu, kteří nesouhlasí s vládou (nebo králem) a kritizují ji."],
+["kolonie","Území mimo vlastní zemi, které ovládá a využívá jiný stát (mateřská země)."],
+["guvernér","Správce kolonie dosazený mateřskou zemí (zástupce krále v kolonii)."],
+["merkantilismus","Hospodářská politika: víc vyvážet než dovážet, aby peníze zůstaly ve státě."],
+["manufaktura","Velká dílna s ruční výrobou a dělbou práce, každý dělník dělá jen jeden úkon."],
+["edikt nantský","Zákon z roku 1598 (Jindřich IV.), který dával hugenotům (francouzským protestantům) stejná práva jako katolíkům. Ludvík XIV. ho zrušil 1685."]
+]},
+{title:"Pravda, nebo nepravda?",kind:"tf",items:[
+["Anglie a Skotsko se po nástupu Jakuba I. okamžitě staly jedním státem.",false,"Jen personální unie. Jeden stát až 1707."],
+["Karel I. byl popraven roku 1649.",true],
+["Cromwell obnovil monarchii už v roce 1653.",false,"1653 se stal lordem protektorem. Monarchie obnovena až 1660 (Karel II.)."],
+["Slavná revoluce vedla k vládě panovníka společně s parlamentem.",true,"Konstituční monarchie."],
+["Zákon o unii z roku 1707 spojil anglický a skotský parlament.",true],
+["Kolonie neměly žádné vlastní volené orgány.",false,"Kolonie měly vlastní volená shromáždění, v čele stál guvernér."],
+["Prohlášení o nezávislosti USA bylo přijato 4. července 1776.",true],
+["George Washington se stal prvním prezidentem USA roku 1789.",true],
+["Ludvík XIV. se ujal vlády roku 1661.",true,"Po smrti Mazarina."],
+["Francouzská revoluce vypukla roku 1789.",true]
+]}
+];
+
+const $=s=>document.querySelector(s);
+const sheet=$("#sheet");
+let tfScore=0,tfDone=0;
+SECTIONS.forEach((s,si)=>{
+  const d=document.createElement("details");d.className="sec";if(si===0)d.open=true;
+  d.innerHTML=`<summary><span class="n">${si+1}.</span>${s.title}<span class="c">${s.items.length} ${s.kind==="tf"?'<span class="score" id="tfs"></span>':""}</span></summary>`;
+  const box=document.createElement("div");box.className="items";
+  s.items.forEach(it=>{
+    const el=document.createElement("div");el.className="item";
+    if(s.kind==="tf"){
+      el.innerHTML=`<div class="q">${it[0]}</div><div class="tf"><button data-v="1">Pravda</button><button data-v="0">Nepravda</button></div><div class="ans" hidden><b>${it[1]?"Pravda":"Nepravda"}</b>${it[2]?". "+it[2]:""}</div>`;
+      const bs=el.querySelectorAll(".tf button"),ans=el.querySelector(".ans");
+      bs.forEach(b=>b.onclick=()=>{
+        if(el.dataset.done)return;el.dataset.done=1;
+        const ok=(b.dataset.v==="1")===it[1];
+        bs.forEach(x=>{x.disabled=true;if((x.dataset.v==="1")===it[1])x.classList.add("ok")});
+        if(!ok)b.classList.add("no");
+        tfDone++;if(ok)tfScore++;$("#tfs").textContent=`· ${tfScore}/${tfDone}`;
+        ans.hidden=false;
+      });
+    }else{
+      const a=s.kind==="year"?`<span class="yr">${it[1]}</span>${it[2]?`<div class="note">${it[2]}</div>`:""}`:it[1];
+      el.innerHTML=`<div class="q">${it[0]}</div><button class="reveal">Ukázat odpověď</button><div class="ans" hidden>${a}</div>`;
+      const r=el.querySelector(".reveal"),ans=el.querySelector(".ans");
+      r.onclick=()=>{ans.hidden=false;r.hidden=true};
+    }
+    box.appendChild(el);
+  });
+  d.appendChild(box);sheet.appendChild(d);
+});
+// vždy otevřená jen jedna sekce
+const secs=[...document.querySelectorAll("details.sec")];
+secs.forEach(s=>s.addEventListener("toggle",()=>{if(!s.open)return;secs.forEach(o=>{if(o!==s)o.open=false});s.scrollIntoView({block:"start",behavior:"smooth"})}));
+$("#showAll").onclick=()=>document.querySelectorAll(".item").forEach(el=>{const a=el.querySelector(".ans"),r=el.querySelector(".reveal");if(r){a.hidden=false;r.hidden=true}else{a.hidden=false}});
+$("#hideAll").onclick=()=>document.querySelectorAll(".item").forEach(el=>{const a=el.querySelector(".ans"),r=el.querySelector(".reveal");if(r){a.hidden=true;r.hidden=false}else if(!el.dataset.done){a.hidden=true}});
+</script>
+</body>
+</html>
